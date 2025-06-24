@@ -18,52 +18,11 @@ main() {
     rm -f "./.github/workflows/containers"*".yml"
 
     generate \
-        'quay.io/fedora/fedora-coreos' \
+        'quay.io/centos-bootc/centos-bootc' \
         'stable' \
         'x86_64' \
-        'Fedora CoreOS'
+        'Centos Stream 10'
 
-    generate \
-        'quay.io/fedora/fedora-coreos' \
-        'stable' \
-        'aarch64' \
-        'Fedora CoreOS'
-
-    generate \
-        'quay.io/fedora/fedora-coreos' \
-        'next' \
-        'x86_64' \
-        'Fedora CoreOS'
-
-    generate \
-        'quay.io/fedora/fedora-coreos' \
-        'next' \
-        'aarch64' \
-        'Fedora CoreOS'
-
-    generate \
-        'quay.io/fedora-ostree-desktops/silverblue' \
-        '41' \
-        'x86_64' \
-        'Fedora Silverblue'
-
-    generate \
-        'quay.io/fedora-ostree-desktops/silverblue' \
-        '42' \
-        'x86_64' \
-        'Fedora Silverblue'
-
-    generate \
-        'quay.io/fedora-ostree-desktops/kinoite' \
-        '41' \
-        'x86_64' \
-        'Fedora Kinoite'
-
-    generate \
-        'quay.io/fedora-ostree-desktops/kinoite' \
-        '42' \
-        'x86_64' \
-        'Fedora Kinoite'
 }
 
 generate() {
@@ -80,7 +39,7 @@ generate() {
     # Get the list of sysexts for a given target
     sysexts=()
     for s in $(git ls-tree -d --name-only HEAD | grep -Ev ".github|templates"); do
-        pushd "${s}" > /dev/null
+        pushd "${s}" >/dev/null
         # Only require the architecture to be explicitly listed for non x86_64 for now
         if [[ "${arch}" == "x86_64" ]]; then
             if [[ $(just targets | grep -c "${image}:${release}") == "1" ]]; then
@@ -91,7 +50,7 @@ generate() {
                 sysexts+=("${s}")
             fi
         fi
-        popd > /dev/null
+        popd >/dev/null
     done
 
     local -r tmpl=".workflow-templates/"
@@ -106,40 +65,40 @@ generate() {
         return 0
     fi
     {
-    sed \
-        -e "s|%%IMAGE%%|${image}|g" \
-        -e "s|%%RELEASE%%|${release}|g" \
-        -e "s|%%NAME%%|${name}|g" \
-        -e "s|%%REGISTRY%%|${registry}|g" \
-        -e "s|%%DESTINATION%%|${shortname}${destination_suffix}|g" \
-        -e "s|%%ARCH%%|${arch}|g" \
-        "${tmpl}/containers_header"
-    echo ""
-    for s in "${sysexts[@]}"; do
-        if [[ -f "${s}/Containerfile" ]]; then
-            sed \
-                -e "s|%%SYSEXT%%|${s}|g" \
-                -e "s|%%SYSEXT_NODOT%%|${s//\./_}|g" \
-                "${tmpl}/containers_build"
-            echo ""
-        fi
-    done
+        sed \
+            -e "s|%%IMAGE%%|${image}|g" \
+            -e "s|%%RELEASE%%|${release}|g" \
+            -e "s|%%NAME%%|${name}|g" \
+            -e "s|%%REGISTRY%%|${registry}|g" \
+            -e "s|%%DESTINATION%%|${shortname}${destination_suffix}|g" \
+            -e "s|%%ARCH%%|${arch}|g" \
+            "${tmpl}/containers_header"
+        echo ""
+        for s in "${sysexts[@]}"; do
+            if [[ -f "${s}/Containerfile" ]]; then
+                sed \
+                    -e "s|%%SYSEXT%%|${s}|g" \
+                    -e "s|%%SYSEXT_NODOT%%|${s//\./_}|g" \
+                    "${tmpl}/containers_build"
+                echo ""
+            fi
+        done
 
-    # Skip pushing containers for now
-    return 0
+        # Skip pushing containers for now
+        return 0
 
-    cat "${tmpl}/containers_logincosign"
-    echo ""
-    for s in "${sysexts[@]}"; do
-        if [[ -f "${s}/Containerfile" ]]; then
-            sed \
-                -e "s|%%SYSEXT%%|${s}|g" \
-                -e "s|%%SYSEXT_NODOT%%|${s//\./_}|g" \
-                "${tmpl}/containers_pushsign"
-            echo ""
-        fi
-    done
-    } > ".github/workflows/containers-${shortname}-${release}.yml"
+        cat "${tmpl}/containers_logincosign"
+        echo ""
+        for s in "${sysexts[@]}"; do
+            if [[ -f "${s}/Containerfile" ]]; then
+                sed \
+                    -e "s|%%SYSEXT%%|${s}|g" \
+                    -e "s|%%SYSEXT_NODOT%%|${s//\./_}|g" \
+                    "${tmpl}/containers_pushsign"
+                echo ""
+            fi
+        done
+    } >".github/workflows/containers-${shortname}-${release}.yml"
 }
 
 main "${@}"
