@@ -1,4 +1,4 @@
-# systemd system extensions for Fedora image based systems
+# systemd system extensions for Centos image based systems
 
 **NOTE: This is currently an experimental project. Make sure to read the known
 limitations section. Use at your own risk.**
