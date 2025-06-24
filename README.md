@@ -4,7 +4,7 @@
 limitations section. Use at your own risk.**
 
 For usage instructions, see the documentation at:
-[extensions.fcos.fr](https://extensions.fcos.fr)
+[extensions.ketelsen.cloud](https://extensions.ketelsen.cloud)
 
 ## Building
 
@@ -49,7 +49,7 @@ $ just build "quay.io/fedora/fedora-coreos:next"
 
 ## `extensions.fcos.fr` redirector
 
-A Caddy based redirector is hosted at `extensions.fcos.fr`. The configutation
+A Caddy based redirector is hosted at `extensions.ketelsen.cloud`. The configutation
 is available in [Caddyfile](Caddyfile). It redirects URLs queried by
 `systemd-sysupdate` to GitHub releases where the sysexts are hosted in this
 repo.
