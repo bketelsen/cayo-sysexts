@@ -38,7 +38,7 @@ jobs:
       image: "ghcr.io/travier/fedora-sysexts/buildroot:latest"
       options: "--privileged --security-opt label=disable --user 0:0"
     env:
-      IMAGE: "quay.io/fedora-ostree-desktops/base-atomic:41"
+      IMAGE: "quay.io/centos-bootc/centos-bootc:c10s"
       FORCE_REBUILD: ${{ inputs.force-rebuild }}
     steps:
       - name: "Checkout repo"
