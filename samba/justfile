@@ -1,0 +1,12 @@
+name := "samba"
+packages := "
+samba
+samba-usershares
+"
+base_images := "
+quay.io/centos-bootc/centos-bootc:c10s x86_64
+"
+
+import '../sysext.just'
+
+all: default
