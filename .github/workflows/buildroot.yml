@@ -60,3 +60,26 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           image: ${{ env.NAME }}
           tags: latest-x86_64
+  merge:
+    runs-on: ubuntu-24.04
+    needs:
+      - build-x86_64
+    steps:
+      - name: Create multi-arch manifest
+        if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/main'
+        shell: bash
+        run: |
+          set -euxo pipefail
+          buildah manifest create "${REGISTRY}/${NAME}:latest" \
+            "${REGISTRY}/${NAME}:latest-x86_64"
+
+      - name: Push to Container Registry
+        uses: redhat-actions/push-to-registry@v2
+        id: push
+        if: (github.event_name == 'push' || github.event_name == 'schedule') && github.ref == 'refs/heads/main'
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          image: ${{ env.NAME }}
+          tags: latest

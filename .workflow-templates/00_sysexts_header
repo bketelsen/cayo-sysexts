@@ -1,4 +1,4 @@
-name: "Build sysexts for Fedora"
+name: "Build sysexts for Centos"
 
 env:
   GH_TOKEN: ${{ github.token }}
