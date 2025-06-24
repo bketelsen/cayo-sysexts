@@ -22,7 +22,6 @@ main() {
 
     arches=(
         'x86_64'
-        'aarch64'
     )
 
     images=(
@@ -37,6 +36,7 @@ main() {
     declare -A sysexts
     for arch in "${arches[@]}"; do
         for image in "${images[@]}"; do
+            echo "Processing sysexts for ${image} on ${arch}"
             list=()
             for s in $(git ls-tree -d --name-only HEAD | grep -Ev ".github|.workflow-templates|docs|.docs-templates"); do
                 pushd "${s}" >/dev/null

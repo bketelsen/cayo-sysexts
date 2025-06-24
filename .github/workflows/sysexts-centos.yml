@@ -1,4 +1,4 @@
-name: "Build sysexts for Cayo"
+name: "Build sysexts for Centos"
 
 env:
   GH_TOKEN: ${{ github.token }}
@@ -12,11 +12,11 @@ on:
     branches:
       - "main"
   schedule:
-    - cron: "0 0 * * *"
+    - cron:  '0 0 * * *'
   workflow_dispatch:
     inputs:
       force-rebuild:
-        description: "Force rebuild of all sysexts"
+        description: 'Force rebuild of all sysexts'
         required: true
         default: false
         type: boolean
@@ -56,7 +56,7 @@ jobs:
       - name: "Build sysext: vim"
         uses: ./.github/actions/build
         with:
-          sysext: "vim"
+          sysext: 'vim'
           image: ${{ env.IMAGE }}
 
   publish-sysexts:
@@ -82,4 +82,4 @@ jobs:
       - name: "Gather all sysexts releases"
         uses: ./.github/actions/gather
         with:
-          sysexts: "vim;"
+          sysexts: 'vim;'
