@@ -53,6 +53,12 @@ jobs:
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git fetch --no-tags --prune --depth=1 origin +refs/heads/main:refs/remotes/origin/main
 
+      - name: "Build sysext: docker-ce"
+        uses: ./.github/actions/build
+        with:
+          sysext: 'docker-ce'
+          image: ${{ env.IMAGE }}
+
       - name: "Build sysext: vim"
         uses: ./.github/actions/build
         with:
@@ -82,4 +88,4 @@ jobs:
       - name: "Gather all sysexts releases"
         uses: ./.github/actions/gather
         with:
-          sysexts: 'vim;'
+          sysexts: 'docker-ce;vim;'
