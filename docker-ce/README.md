@@ -1,6 +1,6 @@
 # docker-ce
 
-Docker Engine from [community repos](https://docs.docker.com/engine/install/fedora/).
+Docker Engine from [community repos](https://docs.docker.com/engine/install/centos/).
 
 ## How to use
 
@@ -16,6 +16,4 @@ Docker Engine from [community repos](https://docs.docker.com/engine/install/fedo
 
 ## Compatibility
 
-This sysext should be compatible with all Fedora variants (CoreOS, Atomic
-Desktops, etc.) but has not been tested on systems with `moby-engine` installed
-such as Fedora CoreOS.
+This sysext should be compatible with all Cayo 10.
