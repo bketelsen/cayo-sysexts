@@ -12,8 +12,8 @@ main() {
         exit 1
     fi
 
-    local -r extensionsurl="https://extensions.fcos.fr/extensions"
-    local -r releaseurl="https://github.com/travier/fedora-sysexts/releases/tag"
+    local -r extensionsurl="https://extensions.ketelsen.cloud/extensions"
+    local -r releaseurl="https://github.com/bketelsen/cayo-sysexts/releases/tag"
 
     local -r tmpl=".docs-templates/"
 
@@ -28,28 +28,28 @@ main() {
         if [[ -f ./${s}/.docs-ignore ]]; then
             continue
         fi
-        navorder=$((navorder+1))
+        navorder=$((navorder + 1))
         mkdir -p "docs/${s}"
         {
-        sed -e "s|%%SYSEXT%%|${s}|g" \
-            -e "s|%%NAVORDER%%|${navorder}|g" \
-           "${tmpl}/header.md"
-        pushd "${s}" > /dev/null
-        if [[ -f "README.md" ]]; then
-            tail -n +2 README.md
-        fi
-        popd > /dev/null
-        echo ""
-        sed -e "s|%%SYSEXT%%|${s}|g" \
-            -e "s|%%RELEASEURL%%|${releaseurl}|g" \
-            -e "s|%%EXTENSIONSURL%%|${extensionsurl}|g" \
-           "${tmpl}/body.md"
-        } > "docs/${s}/index.md"
+            sed -e "s|%%SYSEXT%%|${s}|g" \
+                -e "s|%%NAVORDER%%|${navorder}|g" \
+                "${tmpl}/header.md"
+            pushd "${s}" >/dev/null
+            if [[ -f "README.md" ]]; then
+                tail -n +2 README.md
+            fi
+            popd >/dev/null
+            echo ""
+            sed -e "s|%%SYSEXT%%|${s}|g" \
+                -e "s|%%RELEASEURL%%|${releaseurl}|g" \
+                -e "s|%%EXTENSIONSURL%%|${extensionsurl}|g" \
+                "${tmpl}/body.md"
+        } >"docs/${s}/index.md"
     done
 
-    pushd docs > /dev/null
+    pushd docs >/dev/null
     docs_dir="$(ls -d ./*/ | grep -vE "_site|vendor")"
-    popd > /dev/null
+    popd >/dev/null
     sysexts_dirs="$(ls -d ./*/ | grep -vE "docs")"
 
     diff="$(diff -u <(echo "${docs_dir}") <(echo "${sysexts_dirs}") || true)"

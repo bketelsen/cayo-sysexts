@@ -143,7 +143,7 @@ runs:
           || true
 
         gh release create \
-          --title "${SYSEXT} ${VERSION} for Fedora ${VERSION_ID} (${ARCH})" \
+          --title "${SYSEXT} ${VERSION} for Cayo ${VERSION_ID} (${ARCH})" \
           --notes-file notes \
           "${TAGNAME}" \
           --latest=false \

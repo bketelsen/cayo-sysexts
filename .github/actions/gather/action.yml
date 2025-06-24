@@ -76,7 +76,7 @@ runs:
               || true
 
             gh release create \
-              --title "${sysext} systemd system extensions for Fedora" \
+              --title "${sysext} systemd system extensions for Cayo" \
               --notes-file notes \
               "${sysext}" \
               --latest=false \
@@ -105,7 +105,7 @@ runs:
           || true
 
         gh release create \
-          --title "systemd system extensions for Fedora" \
+          --title "systemd system extensions for Cayo" \
           --notes-file notes \
           latest \
           --latest=true \
