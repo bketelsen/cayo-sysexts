@@ -3,6 +3,7 @@ FROM quay.io/fedora/fedora:latest
 RUN dnf install -y \
         cpio \
         dnf5-plugins \
+        dnf-plugins-core \
         erofs-utils \
         git \
         jq \
