@@ -1,9 +1,0 @@
-FROM baseimage
-
-COPY usr usr
-
-RUN <<EORUN
-set -xeuo pipefail
-dnf install -y iwd
-dnf clean all
-EORUN
