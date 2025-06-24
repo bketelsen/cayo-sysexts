@@ -2,4 +2,4 @@
 
 ## Compatibility
 
-This sysext is compatible with Fedora Atomic Desktops.
+This sysext is compatible with Cayo 10.
