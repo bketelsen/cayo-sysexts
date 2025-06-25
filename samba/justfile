@@ -3,6 +3,7 @@ packages := "
 samba
 samba-usershares
 "
+version_package := "samba"
 base_images := "
 quay.io/centos-bootc/centos-bootc:c10s x86_64
 "
