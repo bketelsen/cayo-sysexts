@@ -1,7 +1,7 @@
 name := "samba"
 packages := "
 samba
-samba-usershares
+samba-client
 "
 version_package := "samba-4"
 base_images := "
