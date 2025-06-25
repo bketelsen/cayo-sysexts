@@ -9,6 +9,7 @@ docker-compose-plugin
 upholds := "
 docker.socket
 "
+files := "usr"
 external_repos := "https://download.docker.com/linux/centos/docker-ce.repo"
 base_images := "
 quay.io/centos-bootc/centos-bootc:c10s x86_64
