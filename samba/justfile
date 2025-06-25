@@ -3,7 +3,7 @@ packages := "
 samba
 samba-client
 "
-version_package := "samba-4"
+version_package := "samba"
 base_images := "
 quay.io/centos-bootc/centos-bootc:c10s x86_64
 "
