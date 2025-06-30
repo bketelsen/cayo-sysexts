@@ -74,7 +74,7 @@ jobs:
   build-fedora-42-x86_64:
     runs-on: "ubuntu-24.04"
     container:
-      image: "ghcr.io/bketelsen/cayo-sysexts/buildroot:latest"
+      image: "ghcr.io/ublue-os/devcontainer:latest"
       options: "--privileged --security-opt label=disable --user 0:0"
     env:
       IMAGE: "ghcr.io/ublue-os/cayo:42"
