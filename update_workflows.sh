@@ -26,12 +26,13 @@ main() {
 
     images=(
         'quay.io/centos-bootc/centos-bootc:c10s'
+        'ghcr.io/ublue-os/cayo:42'
     )
 
     # Set jobnames
     declare -A jobnames
     jobnames["quay.io/centos-bootc/centos-bootc:c10s"]="centos-10"
-
+    jobnames["ghcr.io/ublue-os/cayo:42"]="fedora-42"
     # Get the list of sysexts for each image and each arch
     declare -A sysexts
     for arch in "${arches[@]}"; do

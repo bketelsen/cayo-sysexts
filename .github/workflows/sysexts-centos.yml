@@ -1,4 +1,4 @@
-name: "Build sysexts for Centos"
+name: "Build sysexts for Cayo"
 
 env:
   GH_TOKEN: ${{ github.token }}
@@ -12,11 +12,11 @@ on:
     branches:
       - "main"
   schedule:
-    - cron:  '0 0 * * *'
+    - cron: "0 0 * * *"
   workflow_dispatch:
     inputs:
       force-rebuild:
-        description: 'Force rebuild of all sysexts'
+        description: "Force rebuild of all sysexts"
         required: true
         default: false
         type: boolean
@@ -56,19 +56,46 @@ jobs:
       - name: "Build sysext: docker-ce"
         uses: ./.github/actions/build
         with:
-          sysext: 'docker-ce'
+          sysext: "docker-ce"
           image: ${{ env.IMAGE }}
 
       - name: "Build sysext: samba"
         uses: ./.github/actions/build
         with:
-          sysext: 'samba'
+          sysext: "samba"
           image: ${{ env.IMAGE }}
 
       - name: "Build sysext: vim"
         uses: ./.github/actions/build
         with:
-          sysext: 'vim'
+          sysext: "vim"
+          image: ${{ env.IMAGE }}
+
+  build-fedora-42-x86_64:
+    runs-on: "ubuntu-24.04"
+    container:
+      image: "ghcr.io/bketelsen/cayo-sysexts/buildroot:latest"
+      options: "--privileged --security-opt label=disable --user 0:0"
+    env:
+      IMAGE: "ghcr.io/ublue-os/cayo:42"
+      FORCE_REBUILD: ${{ inputs.force-rebuild }}
+    steps:
+      - name: "Checkout repo"
+        uses: actions/checkout@v4
+
+      - name: "Setup artifacts and dnf cache directories"
+        run: |
+          mkdir -p artifacts .dnf-cache
+
+      - name: "Mark directory as safe"
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git fetch --no-tags --prune --depth=1 origin +refs/heads/main:refs/remotes/origin/main
+
+      - name: "Build sysext: samba"
+        uses: ./.github/actions/build
+        with:
+          sysext: "samba"
           image: ${{ env.IMAGE }}
 
   publish-sysexts:
@@ -94,4 +121,4 @@ jobs:
       - name: "Gather all sysexts releases"
         uses: ./.github/actions/gather
         with:
-          sysexts: 'docker-ce;samba;vim;'
+          sysexts: "docker-ce;samba;vim;"
