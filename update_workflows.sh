@@ -25,13 +25,13 @@ main() {
     )
 
     images=(
-        'quay.io/centos-bootc/centos-bootc:c10s'
+        'ghcr.io/ublue-os/cayo:10'
         'ghcr.io/ublue-os/cayo:42'
     )
 
     # Set jobnames
     declare -A jobnames
-    jobnames["quay.io/centos-bootc/centos-bootc:c10s"]="centos-10"
+    jobnames["ghcr.io/ublue-os/cayo:10"]="centos-10"
     jobnames["ghcr.io/ublue-os/cayo:42"]="fedora-42"
     # Get the list of sysexts for each image and each arch
     declare -A sysexts
@@ -97,7 +97,7 @@ main() {
         done
         uniq_sysexts="$(echo "${all_sysexts[@]}" | tr ' ' '\n' | sort -u | tr '\n' ';')"
         sed -e "s|%%SYSEXTS%%|${uniq_sysexts}|g" "${tmpl}/20_sysexts_gather"
-    } >".github/workflows/sysexts-centos.yml"
+    } >".github/workflows/sysexts-cayo.yml"
 }
 
 main "${@}"

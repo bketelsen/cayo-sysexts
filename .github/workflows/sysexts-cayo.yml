@@ -1,4 +1,4 @@
-name: "Build sysexts for Cayo"
+name: "Build sysexts for Centos"
 
 env:
   GH_TOKEN: ${{ github.token }}
@@ -12,11 +12,11 @@ on:
     branches:
       - "main"
   schedule:
-    - cron: "0 0 * * *"
+    - cron:  '0 0 * * *'
   workflow_dispatch:
     inputs:
       force-rebuild:
-        description: "Force rebuild of all sysexts"
+        description: 'Force rebuild of all sysexts'
         required: true
         default: false
         type: boolean
@@ -38,7 +38,7 @@ jobs:
       image: "ghcr.io/bketelsen/cayo-sysexts/buildroot:latest"
       options: "--privileged --security-opt label=disable --user 0:0"
     env:
-      IMAGE: "quay.io/centos-bootc/centos-bootc:c10s"
+      IMAGE: "ghcr.io/ublue-os/cayo:10"
       FORCE_REBUILD: ${{ inputs.force-rebuild }}
     steps:
       - name: "Checkout repo"
@@ -53,28 +53,16 @@ jobs:
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git fetch --no-tags --prune --depth=1 origin +refs/heads/main:refs/remotes/origin/main
 
-      - name: "Build sysext: docker-ce"
-        uses: ./.github/actions/build
-        with:
-          sysext: "docker-ce"
-          image: ${{ env.IMAGE }}
-
       - name: "Build sysext: samba"
         uses: ./.github/actions/build
         with:
-          sysext: "samba"
-          image: ${{ env.IMAGE }}
-
-      - name: "Build sysext: vim"
-        uses: ./.github/actions/build
-        with:
-          sysext: "vim"
+          sysext: 'samba'
           image: ${{ env.IMAGE }}
 
   build-fedora-42-x86_64:
     runs-on: "ubuntu-24.04"
     container:
-      image: "ghcr.io/ublue-os/devcontainer:latest"
+      image: "ghcr.io/bketelsen/cayo-sysexts/buildroot:latest"
       options: "--privileged --security-opt label=disable --user 0:0"
     env:
       IMAGE: "ghcr.io/ublue-os/cayo:42"
@@ -95,7 +83,7 @@ jobs:
       - name: "Build sysext: samba"
         uses: ./.github/actions/build
         with:
-          sysext: "samba"
+          sysext: 'samba'
           image: ${{ env.IMAGE }}
 
   publish-sysexts:
@@ -106,6 +94,7 @@ jobs:
     # Run after the builds and versionned release
     needs:
       - build-centos-10-x86_64
+      - build-fedora-42-x86_64
 
     # Use `always()` to still run if any dependent job fails
     if: ${{ always() && (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main' }}
@@ -121,4 +110,4 @@ jobs:
       - name: "Gather all sysexts releases"
         uses: ./.github/actions/gather
         with:
-          sysexts: "docker-ce;samba;vim;"
+          sysexts: 'samba;'
