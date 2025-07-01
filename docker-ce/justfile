@@ -11,11 +11,9 @@ docker.socket
 "
 files := "usr"
 external_repos := "
-https://download.docker.com/linux/centos/docker-ce.repo
 https://download.docker.com/linux/fedora/docker-ce.repo
 "
 base_images := "
-ghcr.io/ublue-os/cayo:10 x86_64
 ghcr.io/ublue-os/cayo:42 x86_64
 "
 
