@@ -53,10 +53,22 @@ jobs:
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git fetch --no-tags --prune --depth=1 origin +refs/heads/main:refs/remotes/origin/main
 
+      - name: "Build sysext: docker-ce"
+        uses: ./.github/actions/build
+        with:
+          sysext: 'docker-ce'
+          image: ${{ env.IMAGE }}
+
       - name: "Build sysext: samba"
         uses: ./.github/actions/build
         with:
           sysext: 'samba'
+          image: ${{ env.IMAGE }}
+
+      - name: "Build sysext: vim"
+        uses: ./.github/actions/build
+        with:
+          sysext: 'vim'
           image: ${{ env.IMAGE }}
 
   build-fedora-42-x86_64:
@@ -80,10 +92,22 @@ jobs:
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git fetch --no-tags --prune --depth=1 origin +refs/heads/main:refs/remotes/origin/main
 
+      - name: "Build sysext: docker-ce"
+        uses: ./.github/actions/build
+        with:
+          sysext: 'docker-ce'
+          image: ${{ env.IMAGE }}
+
       - name: "Build sysext: samba"
         uses: ./.github/actions/build
         with:
           sysext: 'samba'
+          image: ${{ env.IMAGE }}
+
+      - name: "Build sysext: vim"
+        uses: ./.github/actions/build
+        with:
+          sysext: 'vim'
           image: ${{ env.IMAGE }}
 
   publish-sysexts:
@@ -110,4 +134,4 @@ jobs:
       - name: "Gather all sysexts releases"
         uses: ./.github/actions/gather
         with:
-          sysexts: 'samba;'
+          sysexts: 'docker-ce;samba;vim;'
